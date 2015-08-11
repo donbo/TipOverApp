@@ -27,6 +27,8 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setRestaurantTipPercentage()    
+        
         tipAmountRestaurantLabel.text = "\(mathModel.tipAmount())"
         totalAmountRestaurantLabel.text = "\(mathModel.totalAmount())"
         tipPercentageRestaurantLabel.text =  "\(mathModel.tipPercentage)"
@@ -38,6 +40,13 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate {
    
     func setRestaurantTipPercentage() {
         let defaults = NSUserDefaults.standardUserDefaults()
+        
+        switch serviceRatingRestaurantSC.selectedSegmentIndex {
+        case 0: serviceQuality = .poor
+        case 1: serviceQuality = .good
+        case 2: serviceQuality = .amazing
+        default: serviceQuality = .good
+        }
         
         switch serviceQuality {
         case .poor:
