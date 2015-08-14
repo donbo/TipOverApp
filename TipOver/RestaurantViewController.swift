@@ -13,32 +13,44 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var billAmountRestaurantTextField: UITextField!
     @IBOutlet weak var serviceRatingRestaurantSC: UISegmentedControl!
-    @IBOutlet weak var backButtonRestaurant: UIButton!
-    @IBOutlet weak var settingsButtonRestaurant: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var tipPercentageRestaurantLabel: UILabel!
-    @IBOutlet weak var incrementTipPercentageRestaurantButton: UIButton!
-    @IBOutlet weak var decrementTipPercentageRestaurantButton: UIButton!
+    @IBOutlet weak var incrementTipPercentageButton: UIButton!
+    @IBOutlet weak var decrementTipPercentageButton: UIButton!
     @IBOutlet weak var tipAmountRestaurantLabel: UILabel!
     @IBOutlet weak var totalAmountRestaurantLabel: UILabel!
     @IBOutlet weak var splitCheckRestaurantButton: UIButton!
-    var mathModel: MathModel = MathModel()
+    @IBOutlet weak var faceView: UIImageView!
+    var service: RestaurantService = RestaurantService()
     var serviceQuality: ServiceQuality = ServiceQuality.good
+    var smileView : SmileView = SmileView.init(frame: CGRectMake(5,31 , 52, 24))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setRestaurantTipPercentage()    
+        // Add the smile view
+        smileView.backgroundColor = UIColor.clearColor()
+        faceView.addSubview(smileView)
+
+        setRestaurantTipPercentageFromServiceQuality()
         
-        tipAmountRestaurantLabel.text = "\(mathModel.tipAmount())"
-        totalAmountRestaurantLabel.text = "\(mathModel.totalAmount())"
-        tipPercentageRestaurantLabel.text =  "\(mathModel.tipPercentage)"
+        billAmountRestaurantTextField.delegate = self
+        
+        tipAmountRestaurantLabel.text = "$\(service.tipAmount())"
+        totalAmountRestaurantLabel.text = "$\(service.totalAmount())"
+        tipPercentageRestaurantLabel.text =  "\(service.tipPercentage)%"
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
    
-    func setRestaurantTipPercentage() {
+    func setRestaurantTipPercentageFromServiceQuality() {
         let defaults = NSUserDefaults.standardUserDefaults()
         
         switch serviceRatingRestaurantSC.selectedSegmentIndex {
@@ -50,20 +62,72 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate {
         
         switch serviceQuality {
         case .poor:
-            mathModel.tipPercentage = Double(defaults.integerForKey("restaurantPoor"))
+            service.tipPercentage = (defaults.integerForKey("restaurantPoor"))
         case .good:
-            mathModel.tipPercentage = Double(defaults.integerForKey("restaurantGood"))
+            service.tipPercentage = (defaults.integerForKey("restaurantGood"))
         case .amazing:
-            mathModel.tipPercentage = Double(defaults.integerForKey("restaurantAmazing"))
+            service.tipPercentage = (defaults.integerForKey("restaurantAmazing"))
         }
+        
+        smileView.updateSmile(serviceRatingRestaurantSC.selectedSegmentIndex)
+        
     }
     
-    func updateViewFromServiceQuality() {
-        setRestaurantTipPercentage()
-        tipAmountRestaurantLabel.text = "\(mathModel.tipAmount())"
-        totalAmountRestaurantLabel.text = "\(mathModel.totalAmount())"
-        tipPercentageRestaurantLabel.text = "\(mathModel.tipPercentage)"
+    func setBillAmount() {
+        let billstring : String = billAmountRestaurantTextField.text!
+        service.billAmount = (billstring as NSString).doubleValue
+        
+        //Update the text field after value entered
+        billAmountRestaurantTextField.text = "$" + String(format: "%03.2f", service.billAmount)
+    }
+    
+    func updateTip() {
+        
+        tipAmountRestaurantLabel.text = "$" + String(format: "%03.2f", service.tipAmount())
+        totalAmountRestaurantLabel.text = "$" + String(format: "%03.2f", service.totalAmount())
+        tipPercentageRestaurantLabel.text = "\(service.tipPercentage)%"
+        
     }
 
-
+    @IBAction func handleBackButton(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion:nil)
+    }
+    
+    @IBAction func handleSettingsButton(sender: AnyObject) {
+        
+    }
+    
+    
+    @IBAction func handleIncrementTipPercentage(sender: AnyObject) {
+        service.tipPercentage += 1
+        updateTip()
+    }
+    
+    @IBAction func handleDecrementTipPercentage(sender: AnyObject) {
+        if service.tipPercentage >= 1 {
+            service.tipPercentage -= 1
+            updateTip()
+        }
+        
+    }
+    
+    
+    @IBAction func handleServiceRating(sender: AnyObject) {
+        setRestaurantTipPercentageFromServiceQuality()
+        updateTip()
+    }
+    
+    // Text View Delegate Functions
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        setBillAmount()
+        updateTip()
+        textField.resignFirstResponder()
+        return true
+    }
+    
+//    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+//        self.view.endEditing(true)
+//    }
+    
 }

@@ -8,9 +8,9 @@
 
 import Foundation
 
-class MathModel {
+class RestaurantService {
     var billAmount: Double
-    var tipPercentage: Double
+    var tipPercentage: Int
     var partySize: Int
     var splitPay: Double
     
@@ -22,7 +22,7 @@ class MathModel {
     }
     
     func tipAmount() -> Double {
-        return billAmount * (tipPercentage/100)
+        return billAmount * (Double(tipPercentage)/100)
     }
     
     func totalAmount() -> Double {

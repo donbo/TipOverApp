@@ -15,9 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // Initialize user defaults
         let defaults = ["restaurantPoor": 10,"restaurantGood": 15, "restaurantAmazing": 20]
         NSUserDefaults.standardUserDefaults().registerDefaults(defaults)
+        
+        // Set the status bar style
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         
         return true
     }

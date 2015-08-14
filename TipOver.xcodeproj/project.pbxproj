@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27735A3D1B795CD20048A576 /* MathModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27735A3C1B795CD20048A576 /* MathModel.swift */; };
+		27735A3D1B795CD20048A576 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27735A3C1B795CD20048A576 /* RestaurantService.swift */; };
 		27735A411B7980B70048A576 /* ServiceQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27735A401B7980B70048A576 /* ServiceQuality.swift */; };
 		921E60761B780CD900A9028D /* TipOverViewAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921E60751B780CD900A9028D /* TipOverViewAttributes.swift */; };
 		9226031A1B757DDD00A203D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922603191B757DDD00A203D7 /* AppDelegate.swift */; };
@@ -28,6 +28,7 @@
 		923C7B761B7817A900D1421F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B751B7817A900D1421F /* SettingsViewController.swift */; };
 		923C7B781B7817F900D1421F /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B771B7817F900D1421F /* ServiceType.swift */; };
 		923C7B7A1B7818B400D1421F /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B791B7818B400D1421F /* ServiceCell.swift */; };
+		92AE82A31B7C465D00F7249F /* SmileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AE82A21B7C465D00F7249F /* SmileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		27735A3C1B795CD20048A576 /* MathModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathModel.swift; sourceTree = "<group>"; };
+		27735A3C1B795CD20048A576 /* RestaurantService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		27735A401B7980B70048A576 /* ServiceQuality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceQuality.swift; path = ../ServiceQuality.swift; sourceTree = "<group>"; };
 		921E60751B780CD900A9028D /* TipOverViewAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipOverViewAttributes.swift; sourceTree = "<group>"; };
 		922603161B757DDD00A203D7 /* TipOver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TipOver.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +76,7 @@
 		923C7B751B7817A900D1421F /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		923C7B771B7817F900D1421F /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
 		923C7B791B7818B400D1421F /* ServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
+		92AE82A21B7C465D00F7249F /* SmileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +109,8 @@
 			children = (
 				923C7B771B7817F900D1421F /* ServiceType.swift */,
 				27735A401B7980B70048A576 /* ServiceQuality.swift */,
-				27735A3C1B795CD20048A576 /* MathModel.swift */,
+				92AE82A21B7C465D00F7249F /* SmileView.swift */,
+				27735A3C1B795CD20048A576 /* RestaurantService.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				923C7B701B78177E00D1421F /* ManicureViewController.swift in Sources */,
 				923C7B6E1B78176800D1421F /* TaxiViewController.swift in Sources */,
 				921E60761B780CD900A9028D /* TipOverViewAttributes.swift in Sources */,
+				92AE82A31B7C465D00F7249F /* SmileView.swift in Sources */,
 				923C7B7A1B7818B400D1421F /* ServiceCell.swift in Sources */,
 				923C7B681B78172300D1421F /* RestaurantViewController.swift in Sources */,
 				923C7B6C1B78175600D1421F /* HairstyleViewController.swift in Sources */,
@@ -332,7 +336,7 @@
 				9226031C1B757DDD00A203D7 /* TipOverViewController.swift in Sources */,
 				27735A411B7980B70048A576 /* ServiceQuality.swift in Sources */,
 				923C7B741B78179E00D1421F /* CustomViewController.swift in Sources */,
-				27735A3D1B795CD20048A576 /* MathModel.swift in Sources */,
+				27735A3D1B795CD20048A576 /* RestaurantService.swift in Sources */,
 				923C7B6A1B78173900D1421F /* BarViewController.swift in Sources */,
 				9226031A1B757DDD00A203D7 /* AppDelegate.swift in Sources */,
 				923C7B721B78178B00D1421F /* HotelViewController.swift in Sources */,
