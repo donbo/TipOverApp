@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set the status bar style
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         
+        //let controller = self.window?.rootViewController as! TipOverViewController
+        
+        
         return true
     }
 

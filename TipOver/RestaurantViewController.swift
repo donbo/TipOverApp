@@ -22,9 +22,12 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var totalAmountRestaurantLabel: UILabel!
     @IBOutlet weak var splitCheckRestaurantButton: UIButton!
     @IBOutlet weak var faceView: UIImageView!
+    var myServiceType: ServiceType = ServiceType.Restaurant
     var service: RestaurantService = RestaurantService()
     var serviceQuality: ServiceQuality = ServiceQuality.good
     var smileView : SmileView = SmileView.init(frame: CGRectMake(5,31 , 52, 24))
+    private var coverView: UIView = UIView()
+    let viewProperties = ViewProperties()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +43,18 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate {
         tipAmountRestaurantLabel.text = "$\(service.tipAmount())"
         totalAmountRestaurantLabel.text = "$\(service.totalAmount())"
         tipPercentageRestaurantLabel.text =  "\(service.tipPercentage)%"
+        coverView.backgroundColor = viewProperties.serviceBackgroundColor["Restaurant"]
+        coverView.frame = self.view.frame
+        coverView.frame.origin.y += 64
+        
+        self.view.addSubview(coverView)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        UIView.animateWithDuration(0.5, animations: {
+            self.coverView.alpha = 0
+        })
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -90,11 +103,19 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func handleBackButton(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion:nil)
+        //self.dismissViewControllerAnimated(true, completion:nil)
+        self.performSegueWithIdentifier("unwindRestaurant", sender: self)
+        
+    }
+    
+    @IBAction func unwindToTipOver(sender: UIStoryboardSegue)
+    {
+        print("in unwindToTipOver")
     }
     
     @IBAction func handleSettingsButton(sender: AnyObject) {
-        
+        print ("in handleSettingsButton")
+        self.performSegueWithIdentifier("showSettings", sender: self)
     }
     
     

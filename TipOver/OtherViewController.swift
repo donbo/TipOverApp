@@ -1,19 +1,23 @@
 //
-//  CustomViewController.swift
+//  OtherViewController.swift
 //  TipOver
 //
-//  Created by Don Wilson on 8/9/15.
+//  Created by Don Wilson on 8/26/15.
 //  Copyright © 2015 Don Wilson. All rights reserved.
 //
 
 import UIKit
 
-class CustomViewController: UIViewController {
+class OtherViewController: UIViewController {
 
+    let viewProperties = ViewProperties()
+    @IBOutlet weak var backButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.backgroundColor = viewProperties.serviceBackgroundColor["Other"]
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,7 +25,14 @@ class CustomViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    @IBAction func handleBackButton(sender: UIButton) {
+        self.performSegueWithIdentifier("unwindOther", sender: self)
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -1,23 +1,24 @@
 //
-//  DeliveryViewController.swift
+//  BarViewController.swift
 //  TipOver
 //
-//  Created by Don Wilson on 8/9/15.
+//  Created by Don Wilson on 8/26/15.
 //  Copyright © 2015 Don Wilson. All rights reserved.
 //
 
 import UIKit
 
-class DeliveryViewController: UIViewController {
+class BarViewController: UIViewController {
 
     let viewProperties = ViewProperties()
-    @IBOutlet var backButton: UIView!
-    
+    @IBOutlet weak var backButton: UIButton!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-
-        view.backgroundColor = viewProperties.serviceBackgroundColor["Delivery"]
+        
+        view.backgroundColor = viewProperties.serviceBackgroundColor["Bar"]
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,7 +31,7 @@ class DeliveryViewController: UIViewController {
     }
     
     @IBAction func handleBackButton(sender: UIButton) {
-        self.performSegueWithIdentifier("unwindDelivery", sender: self)  
+        self.performSegueWithIdentifier("unwindBar", sender: self)
     }
 
 }
