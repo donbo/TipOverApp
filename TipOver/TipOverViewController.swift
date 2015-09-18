@@ -252,13 +252,13 @@ class TipOverViewController: UIViewController {
     override func prepareForSegue(segue: (UIStoryboardSegue!), sender: AnyObject!) {
         
         // Set the links back to the current view controller
-        //switch segue.identifier {
-        //case "showRestaurant":
-        //    let controller = segue.destinationViewController as? RestaurantViewController
-        //    controller?.parentViewController = self
-        //default:
-        //    print("in default")
-        //}
+        switch segue.identifier! {
+        case "showRestaurant":
+            let controller = segue.destinationViewController as? RestaurantViewController
+            controller?.segueFromTipOverRoot = true
+        default:
+            print("in default")
+        }
         
     }
     

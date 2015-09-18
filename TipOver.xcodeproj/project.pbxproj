@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		27735A3D1B795CD20048A576 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27735A3C1B795CD20048A576 /* RestaurantService.swift */; };
 		27735A411B7980B70048A576 /* ServiceQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27735A401B7980B70048A576 /* ServiceQuality.swift */; };
+		920D4F551B9BA201002D6F20 /* TipOverKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920D4F541B9BA201002D6F20 /* TipOverKeyboardView.swift */; };
 		921E60761B780CD900A9028D /* TipOverViewAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921E60751B780CD900A9028D /* TipOverViewAttributes.swift */; };
-		9222D41D1B9257CB00B9288D /* slide-rock.aif in Resources */ = {isa = PBXBuildFile; fileRef = 9222D41C1B9257CB00B9288D /* slide-rock.aif */; settings = {ASSET_TAGS = (); }; };
-		9222D41F1B9257DE00B9288D /* tap-professional.aif in Resources */ = {isa = PBXBuildFile; fileRef = 9222D41E1B9257DE00B9288D /* tap-professional.aif */; settings = {ASSET_TAGS = (); }; };
+		9222D41D1B9257CB00B9288D /* slide-rock.aif in Resources */ = {isa = PBXBuildFile; fileRef = 9222D41C1B9257CB00B9288D /* slide-rock.aif */; };
+		9222D41F1B9257DE00B9288D /* tap-professional.aif in Resources */ = {isa = PBXBuildFile; fileRef = 9222D41E1B9257DE00B9288D /* tap-professional.aif */; };
 		9222D4211B925A8600B9288D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9222D4201B925A8600B9288D /* AVFoundation.framework */; };
 		9226031A1B757DDD00A203D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922603191B757DDD00A203D7 /* AppDelegate.swift */; };
 		9226031C1B757DDD00A203D7 /* TipOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9226031B1B757DDD00A203D7 /* TipOverViewController.swift */; };
@@ -30,7 +31,9 @@
 		923C7B781B7817F900D1421F /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B771B7817F900D1421F /* ServiceType.swift */; };
 		923C7B7A1B7818B400D1421F /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B791B7818B400D1421F /* ServiceCell.swift */; };
 		924F54951B8EAA5A00A8FF21 /* OtherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924F54941B8EAA5A00A8FF21 /* OtherViewController.swift */; };
+		928ED3E31B93CF3800ADFC79 /* TapSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928ED3E21B93CF3800ADFC79 /* TapSound.swift */; };
 		92AE82A31B7C465D00F7249F /* SmileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AE82A21B7C465D00F7249F /* SmileView.swift */; };
+		92C352E51B9397FC00B0D582 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C352E41B9397FC00B0D582 /* SettingsTableViewCell.swift */; };
 		92E4B8A51B8E9F6100EB5D6E /* BarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4B8A41B8E9F6100EB5D6E /* BarViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +57,7 @@
 /* Begin PBXFileReference section */
 		27735A3C1B795CD20048A576 /* RestaurantService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		27735A401B7980B70048A576 /* ServiceQuality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceQuality.swift; path = ../ServiceQuality.swift; sourceTree = "<group>"; };
+		920D4F541B9BA201002D6F20 /* TipOverKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipOverKeyboardView.swift; sourceTree = "<group>"; };
 		921E60751B780CD900A9028D /* TipOverViewAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipOverViewAttributes.swift; sourceTree = "<group>"; };
 		9222D41C1B9257CB00B9288D /* slide-rock.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "slide-rock.aif"; sourceTree = "<group>"; };
 		9222D41E1B9257DE00B9288D /* tap-professional.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tap-professional.aif"; sourceTree = "<group>"; };
@@ -81,7 +85,9 @@
 		923C7B771B7817F900D1421F /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
 		923C7B791B7818B400D1421F /* ServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
 		924F54941B8EAA5A00A8FF21 /* OtherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherViewController.swift; sourceTree = "<group>"; };
+		928ED3E21B93CF3800ADFC79 /* TapSound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapSound.swift; sourceTree = "<group>"; };
 		92AE82A21B7C465D00F7249F /* SmileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmileView.swift; sourceTree = "<group>"; };
+		92C352E41B9397FC00B0D582 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		92E4B8A41B8E9F6100EB5D6E /* BarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarViewController.swift; path = ../BarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +124,7 @@
 				27735A401B7980B70048A576 /* ServiceQuality.swift */,
 				92AE82A21B7C465D00F7249F /* SmileView.swift */,
 				27735A3C1B795CD20048A576 /* RestaurantService.swift */,
+				928ED3E21B93CF3800ADFC79 /* TapSound.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -130,7 +137,9 @@
 				922603201B757DDD00A203D7 /* Assets.xcassets */,
 				922603221B757DDD00A203D7 /* LaunchScreen.storyboard */,
 				923C7B791B7818B400D1421F /* ServiceCell.swift */,
+				92C352E41B9397FC00B0D582 /* SettingsTableViewCell.swift */,
 				922935AF1B802FAE00D86A4D /* TipOverHeaderCollectionReusableView.swift */,
+				920D4F541B9BA201002D6F20 /* TipOverKeyboardView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -349,13 +358,16 @@
 			files = (
 				923C7B701B78177E00D1421F /* ManicureViewController.swift in Sources */,
 				923C7B6E1B78176800D1421F /* TaxiViewController.swift in Sources */,
+				92C352E51B9397FC00B0D582 /* SettingsTableViewCell.swift in Sources */,
 				921E60761B780CD900A9028D /* TipOverViewAttributes.swift in Sources */,
 				92AE82A31B7C465D00F7249F /* SmileView.swift in Sources */,
 				92E4B8A51B8E9F6100EB5D6E /* BarViewController.swift in Sources */,
 				923C7B7A1B7818B400D1421F /* ServiceCell.swift in Sources */,
 				923C7B681B78172300D1421F /* RestaurantViewController.swift in Sources */,
 				923C7B6C1B78175600D1421F /* HairstyleViewController.swift in Sources */,
+				920D4F551B9BA201002D6F20 /* TipOverKeyboardView.swift in Sources */,
 				923C7B781B7817F900D1421F /* ServiceType.swift in Sources */,
+				928ED3E31B93CF3800ADFC79 /* TapSound.swift in Sources */,
 				923C7B661B7816EF00D1421F /* DeliveryViewController.swift in Sources */,
 				9226031C1B757DDD00A203D7 /* TipOverViewController.swift in Sources */,
 				27735A411B7980B70048A576 /* ServiceQuality.swift in Sources */,
@@ -528,6 +540,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = TipOverTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.TipOverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -540,6 +553,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = TipOverTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.TipOverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -551,6 +565,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = TipOverUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.TipOverUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -563,6 +578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = TipOverUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.TipOverUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

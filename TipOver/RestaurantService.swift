@@ -9,10 +9,10 @@
 import Foundation
 
 class RestaurantService {
-    var billAmount: Double
+    var billAmount: Int
     var tipPercentage: Int
     var partySize: Int
-    var splitPay: Double
+    var splitPay: Int
     
     init() {
         billAmount = 0
@@ -22,15 +22,19 @@ class RestaurantService {
     }
     
     func tipAmount() -> Double {
-        return billAmount * (Double(tipPercentage)/100)
+        return (Double(billAmount)/100.0) * (Double(tipPercentage)/100.0)
     }
     
     func totalAmount() -> Double {
-        return billAmount + tipAmount()
+        return (Double(billAmount)/100.0) + tipAmount()
     }
     
     func splitAmount() -> Double {
-        return totalAmount() / Double(partySize)
+        if partySize == 1 {
+            return self.totalAmount()
+        } else {
+            return (self.totalAmount()/Double(partySize))
+        }
     }
     
     func decrementPartySize() -> Int {

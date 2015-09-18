@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // Initialize user defaults
-        let defaults = ["restaurantPoor": 10,"restaurantGood": 15, "restaurantAmazing": 20]
+        let defaults = ["RestaurantPoor": 10,"RestaurantGood": 15, "RestaurantAmazing": 20, "defaultRestaurantPoor": 10, "defaultRestaurantGood" : 15, "defaultRestaurantAmazing": 20]
         NSUserDefaults.standardUserDefaults().registerDefaults(defaults)
         
         // Set the status bar style
