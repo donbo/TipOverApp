@@ -1,5 +1,5 @@
 //
-//  RestaurantViewController.swift
+//  PercentageServiceViewController.swift
 //  TipOver
 //
 //  Created by Don Wilson on 8/9/15.
@@ -8,26 +8,28 @@
 
 import UIKit
 
-class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboard {
+class PercentageServiceViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboard {
     
     
-    @IBOutlet weak var billAmountRestaurantTextField: UITextField!
-    @IBOutlet weak var serviceRatingRestaurantSC: UISegmentedControl!
+    @IBOutlet weak var serviceTypeLabel: UILabel!
+    @IBOutlet weak var amountTextFieldLabel: UILabel!
+    @IBOutlet weak var billAmountTextField: UITextField!
+    @IBOutlet weak var serviceRatingSC: UISegmentedControl!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
-    @IBOutlet weak var tipPercentageRestaurantLabel: UILabel!
+    @IBOutlet weak var tipPercentageLabel: UILabel!
     @IBOutlet weak var incrementTipPercentageButton: UIButton!
     @IBOutlet weak var decrementTipPercentageButton: UIButton!
     var tipAmountLabel: UILabel = UILabel()
-    var tipAmountRestaurantLabel: UILabel = UILabel()
+    var tipAmountServiceLabel: UILabel = UILabel()
     var totalAmountLabel: UILabel = UILabel()
-    var totalAmountRestaurantLabel: UILabel = UILabel()
-    @IBOutlet weak var splitCheckRestaurantButton: UIButton!
+    var totalAmountServiceLabel: UILabel = UILabel()
+    @IBOutlet weak var splitCheckButton: UIButton!
     @IBOutlet weak var faceView: UIImageView!
     var myServiceType: ServiceType = ServiceType.Restaurant
-    var service: RestaurantService = RestaurantService()
+    var service: PercentageBasedService = PercentageBasedService()
     var serviceQuality: ServiceQuality = ServiceQuality.good
-    var smileView : SmileView = SmileView.init(frame: CGRectMake(5,31 , 52, 24))
+    var smileView : SmileView = SmileView.init(frame: CGRectMake(6,31 , 52, 24))
     private var coverView: UIView = UIView()
     let viewProperties = ViewProperties()
     var keyboardView: TipOverKeyboardView = TipOverKeyboardView()
@@ -45,31 +47,82 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         // Add the smile view
         smileView.backgroundColor = UIColor.clearColor()
         faceView.addSubview(smileView)
+        
+        serviceRatingSC.layer.cornerRadius = 3;
+        serviceRatingSC.layer.masksToBounds = true;
 
         // Add the tip amount and total amount labels
         // These are added programatically so they can be adjusted to screen size, and animated for a split check
         // Lack of constraints makes this easier
         addTotalLabels()
         
-        setRestaurantTipPercentageFromServiceQuality()
+        setTipPercentageFromServiceQuality()
         
-        billAmountRestaurantTextField.delegate = self
-        billAmountRestaurantTextField.clearsOnBeginEditing = false
+        billAmountTextField.delegate = self
+        billAmountTextField.clearsOnBeginEditing = false
         
-        tipAmountRestaurantLabel.text = "$" + String(format: "%03.2f", service.tipAmount())
-        totalAmountRestaurantLabel.text = "$" + String(format: "%03.2f", service.totalAmount())
-        tipPercentageRestaurantLabel.text =  "\(service.tipPercentage)%"
-        coverView.backgroundColor = viewProperties.serviceBackgroundColor["Restaurant"]
+        tipAmountServiceLabel.text = "$" + String(format: "%03.2f", service.tipAmount())
+        totalAmountServiceLabel.text = "$" + String(format: "%03.2f", service.totalAmount())
+        tipPercentageLabel.text =  "\(service.tipPercentage)%"
         coverView.frame = self.view.frame
         coverView.frame.origin.y += 64
         
         self.view.addSubview(coverView)
         
-        // Set up the keyboard view
-        keyboardView.setup("Restaurant")
-        keyboardView.delegate = self
-        billAmountRestaurantTextField.inputView = keyboardView
         
+        // Set up characteristics based on the service type
+        switch myServiceType {
+        case ServiceType.Restaurant:
+                self.coverView.backgroundColor = self.viewProperties.serviceBackgroundColor["Restaurant"]
+                self.view.backgroundColor = self.viewProperties.serviceBackgroundColor["Restaurant"]
+                keyboardView.setup(167, keyGap: 2, serviceType: "Restaurant")
+        case ServiceType.HairStyle:
+            self.serviceTypeLabel.text = "Hairstyle"
+            self.amountTextFieldLabel.text = "Bill Amount"
+            self.coverView.backgroundColor = self.viewProperties.serviceBackgroundColor["Hairstyle"]
+            self.view.backgroundColor = self.viewProperties.serviceBackgroundColor["Hairstyle"]
+            keyboardView.setup(167, keyGap: 2, serviceType: "Hairstyle")
+            self.splitCheckButton.setTitle(" ", forState: UIControlState.Normal)
+            self.splitCheckButton.enabled = false
+            self.serviceRatingSC.backgroundColor = viewProperties.serviceBackgroundLightColor["Hairstyle"]
+            self.billAmountTextField.textColor = viewProperties.serviceBackgroundLightColor["Hairstyle"]
+        case ServiceType.Taxi:
+            self.serviceTypeLabel.text = "Taxi"
+            self.amountTextFieldLabel.text = "Fare Amount"
+            self.coverView.backgroundColor = self.viewProperties.serviceBackgroundColor["Taxi"]
+            self.view.backgroundColor = self.viewProperties.serviceBackgroundColor["Taxi"]
+            keyboardView.setup(167, keyGap: 2, serviceType: "Taxi")
+            self.splitCheckButton.setTitle("Split Fare", forState: UIControlState.Normal)
+            self.serviceRatingSC.backgroundColor = viewProperties.serviceBackgroundLightColor["Taxi"]
+            self.billAmountTextField.textColor = viewProperties.serviceBackgroundLightColor["Taxi"]
+        case ServiceType.Delivery:
+            self.serviceTypeLabel.text = "Delivery"
+            self.amountTextFieldLabel.text = "Bill Amount"
+            self.coverView.backgroundColor = self.viewProperties.serviceBackgroundColor["Delivery"]
+            self.view.backgroundColor = self.viewProperties.serviceBackgroundColor["Delivery"]
+            keyboardView.setup(167, keyGap: 2, serviceType: "Delivery")
+            self.splitCheckButton.setTitle("Split Bill", forState: UIControlState.Normal)
+            //self.splitCheckButton.enabled = false
+            self.serviceRatingSC.backgroundColor = viewProperties.serviceBackgroundLightColor["Delivery"]
+            self.billAmountTextField.textColor = viewProperties.serviceBackgroundLightColor["Delivery"]
+        case ServiceType.Manicure:
+            self.serviceTypeLabel.text = "Manicure"
+            self.amountTextFieldLabel.text = "Bill Amount"
+            self.coverView.backgroundColor = self.viewProperties.serviceBackgroundColor["Manicure"]
+            self.view.backgroundColor = self.viewProperties.serviceBackgroundColor["Manicure"]
+            keyboardView.setup(167, keyGap: 2, serviceType: "Manicure")
+            self.splitCheckButton.setTitle(" ", forState: UIControlState.Normal)
+            self.splitCheckButton.enabled = false
+            self.serviceRatingSC.backgroundColor = viewProperties.serviceBackgroundLightColor["Manicure"]
+            self.billAmountTextField.textColor = viewProperties.serviceBackgroundLightColor["Manicure"]
+        default:
+            break
+        }
+        
+        // Set up the rest of the keyboard view
+        keyboardView.delegate = self
+        billAmountTextField.inputView = keyboardView
+
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -79,13 +132,13 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         
         if segueFromTipOverRoot {
             // Set the text field into editing mode to bring up the keyboard
-            billAmountRestaurantTextField.becomeFirstResponder()
+            billAmountTextField.becomeFirstResponder()
             let billValue = Double(service.billAmount)/100.0
-            billAmountRestaurantTextField.text = "$" + String(format: "%03.2f", billValue)
+            billAmountTextField.text = "$" + String(format: "%03.2f", billValue)
             segueFromTipOverRoot = false
         }
         
-        setRestaurantTipPercentageFromServiceQuality()
+        setTipPercentageFromServiceQuality()
         updateTip()
         
     }
@@ -97,44 +150,44 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         return .LightContent
     }
    
-    func setRestaurantTipPercentageFromServiceQuality() {
+    func setTipPercentageFromServiceQuality() {
         let defaults = NSUserDefaults.standardUserDefaults()
+        var serviceQualityDefaultKey:String = String()
         
-        switch serviceRatingRestaurantSC.selectedSegmentIndex {
-        case 0: serviceQuality = .poor
-        case 1: serviceQuality = .good
-        case 2: serviceQuality = .amazing
-        default: serviceQuality = .good
+        switch serviceRatingSC.selectedSegmentIndex {
+        case 0:
+            serviceQuality = .poor
+            serviceQualityDefaultKey = self.serviceTypeLabel.text! + "Poor"
+        case 1:
+            serviceQuality = .good
+            serviceQualityDefaultKey = self.serviceTypeLabel.text! + "Good"
+        case 2:
+            serviceQuality = .amazing
+            serviceQualityDefaultKey = self.serviceTypeLabel.text! + "Amazing"
+        default:
+            serviceQuality = .good
         }
         
-        switch serviceQuality {
-        case .poor:
-            service.tipPercentage = (defaults.integerForKey("RestaurantPoor"))
-        case .good:
-            service.tipPercentage = (defaults.integerForKey("RestaurantGood"))
-        case .amazing:
-            service.tipPercentage = (defaults.integerForKey("RestaurantAmazing"))
-        }
-        
-        smileView.updateSmile(serviceRatingRestaurantSC.selectedSegmentIndex)
+        service.tipPercentage = (defaults.integerForKey(serviceQualityDefaultKey))
+        smileView.updateSmile(serviceRatingSC.selectedSegmentIndex)
         
     }
     
     func setBillAmount() {
-        let billstring : String = billAmountRestaurantTextField.text!
+        let billstring : String = billAmountTextField.text!
         let billAmount:Double = (billstring as NSString).doubleValue
         service.billAmount = Int(billAmount*100)
         
         //Update the text field after value entered
         let billValue = Double(service.billAmount)/100.0
-        billAmountRestaurantTextField.text = "$" + String(format: "%03.2f", billValue)
+        billAmountTextField.text = "$" + String(format: "%03.2f", billValue)
     }
     
     func updateTip() {
         
-        tipAmountRestaurantLabel.text = "$" + String(format: "%03.2f", service.tipAmount())
-        totalAmountRestaurantLabel.text = "$" + String(format: "%03.2f", service.totalAmount())
-        tipPercentageRestaurantLabel.text = "\(service.tipPercentage)%"
+        tipAmountServiceLabel.text = "$" + String(format: "%03.2f", service.tipAmount())
+        totalAmountServiceLabel.text = "$" + String(format: "%03.2f", service.totalAmount())
+        tipPercentageLabel.text = "\(service.tipPercentage)%"
         
         if splitCheckActive {
             updateSplitCheckAmount()    
@@ -176,13 +229,13 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         tipAmountLabel.frame = CGRectMake((centerFrame - labelWidth/2.0), initialY, labelWidth, labelHeight)
         self.view.addSubview(tipAmountLabel)
     
-        tipAmountRestaurantLabel.text = "$0.00"
+        tipAmountServiceLabel.text = "$0.00"
         let labelBigFont = UIFont(name: "AvenirNext-Regular", size: 32)
-        tipAmountRestaurantLabel.font = labelBigFont
-        tipAmountRestaurantLabel.textAlignment = NSTextAlignment.Center
-        tipAmountRestaurantLabel.textColor = viewProperties.textBackgroundColor
-        tipAmountRestaurantLabel.frame = CGRectMake(tipAmountLabel.frame.origin.x, initialY + space1, labelWidth, labelHeight)
-        self.view.addSubview(tipAmountRestaurantLabel)
+        tipAmountServiceLabel.font = labelBigFont
+        tipAmountServiceLabel.textAlignment = NSTextAlignment.Center
+        tipAmountServiceLabel.textColor = viewProperties.textBackgroundColor
+        tipAmountServiceLabel.frame = CGRectMake(tipAmountLabel.frame.origin.x, initialY + space1, labelWidth, labelHeight)
+        self.view.addSubview(tipAmountServiceLabel)
         
         // Add total labels
         totalAmountLabel.text = "Total Amount"
@@ -192,12 +245,12 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         totalAmountLabel.frame = CGRectMake((centerFrame - labelWidth/2.0), initialY + space2, labelWidth, labelHeight)
         self.view.addSubview(totalAmountLabel)
         
-        totalAmountRestaurantLabel.text = "$0.00"
-        totalAmountRestaurantLabel.font = labelBigFont
-        totalAmountRestaurantLabel.textAlignment = NSTextAlignment.Center
-        totalAmountRestaurantLabel.textColor = viewProperties.textBackgroundColor
-        totalAmountRestaurantLabel.frame = CGRectMake(tipAmountLabel.frame.origin.x, initialY + space3, labelWidth, labelHeight)
-        self.view.addSubview(totalAmountRestaurantLabel)
+        totalAmountServiceLabel.text = "$0.00"
+        totalAmountServiceLabel.font = labelBigFont
+        totalAmountServiceLabel.textAlignment = NSTextAlignment.Center
+        totalAmountServiceLabel.textColor = viewProperties.textBackgroundColor
+        totalAmountServiceLabel.frame = CGRectMake(tipAmountLabel.frame.origin.x, initialY + space3, labelWidth, labelHeight)
+        self.view.addSubview(totalAmountServiceLabel)
         
     }
 
@@ -205,11 +258,13 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         //self.dismissViewControllerAnimated(true, completion:nil)
         self.performSegueWithIdentifier("unwindRestaurant", sender: self)
         
+        // Resign the keyboard first responder, in case the keyboard is displayed.  
+        billAmountTextField.resignFirstResponder()
     }
     
     @IBAction func unwindToTipOver(sender: UIStoryboardSegue)
     {
-        print("in unwindToTipOver")
+        
     }
     
     @IBAction func handleSettingsButton(sender: AnyObject) {
@@ -242,7 +297,7 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         
         TapSound.sharedInstance.play()
         
-        setRestaurantTipPercentageFromServiceQuality()
+        setTipPercentageFromServiceQuality()
         updateTip()
     }
     
@@ -253,6 +308,15 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         updateTip()
         textField.resignFirstResponder()
         return true
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if segue.identifier! == "showSettings" {
+            let controller = segue.destinationViewController as? SettingsViewController
+            controller?.myServiceType = myServiceType
+        }
     }
     
     @IBAction func handleSplitCheck(sender: UIButton) {
@@ -278,7 +342,7 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
             self.view.addSubview(numberInPartyLabel)
             
             service.partySize = 1
-            frame1 = tipAmountRestaurantLabel.frame
+            frame1 = tipAmountServiceLabel.frame
             numberInPartyQuantity.text = "1"
             labelFont = UIFont(name: "AvenirNext-Regular", size: 32)
             numberInPartyQuantity.font = labelFont
@@ -324,8 +388,8 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
             self.view.addSubview(totalEachLabel)
             
 
-            frame2 = totalAmountRestaurantLabel.frame
-            totalEachQuantity.text = totalAmountRestaurantLabel.text
+            frame2 = totalAmountServiceLabel.frame
+            totalEachQuantity.text = totalAmountServiceLabel.text
             labelFont = UIFont(name: "AvenirNext-Regular", size: 32)
             totalEachQuantity.font = labelFont
             totalEachQuantity.textAlignment = NSTextAlignment.Center
@@ -338,9 +402,9 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
             UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.3, options: [], animations: {
                 
                 self.tipAmountLabel.center = CGPointMake(CGFloat(screenRect.width * 0.75), self.tipAmountLabel.center.y)
-                self.tipAmountRestaurantLabel.center.x = CGFloat(screenRect.width * 0.75)
+                self.tipAmountServiceLabel.center.x = CGFloat(screenRect.width * 0.75)
                 self.totalAmountLabel.center.x = CGFloat(screenRect.width * 0.75)
-                self.totalAmountRestaurantLabel.center.x = CGFloat(screenRect.width * 0.75)
+                self.totalAmountServiceLabel.center.x = CGFloat(screenRect.width * 0.75)
                 
                 },
                 completion: { (finished: Bool) in})
@@ -364,35 +428,20 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
             // Numeric input
             service.billAmount = service.billAmount*10 + key
             let billValue = Double(service.billAmount)/100.0
-            billAmountRestaurantTextField.text = "$" + String(format: "%03.2f", billValue)
+            billAmountTextField.text = "$" + String(format: "%03.2f", billValue)
         } else if (key == 10) {
-            // Backspace key
-            //var billPennies: Double = 0.0
-            //billPennies = service.billAmount % 0.10
-            
-            //print("Bill pennies = \(billPennies)")
-            
-            //let lastDigitIndex = billAmountRestaurantTextField.text?.startIndex
-            //let rangeLastDigit = Range( start: lastDigitIndex!,
-            //                            end:lastDigitIndex!)
-            //let lastDigit = billAmountRestaurantTextField.text!.substringWithRange(rangeLastDigit)
-            
-            //print("last digit is " + lastDigit)
-            //if lastDigit == "0" {
-            //    print("last char is zero")
-            //    billPennies = 0.0
-            //}
-            
             service.billAmount = service.billAmount / 10
             let billValue = Double(service.billAmount)/100.0
-            billAmountRestaurantTextField.text = "$" + String(format: "%03.2f", billValue)
+            billAmountTextField.text = "$" + String(format: "%03.2f", billValue)
         } else if (key == 11) {
             // Done key
             updateTip()
-            billAmountRestaurantTextField.resignFirstResponder()
+            billAmountTextField.resignFirstResponder()
         }
     }
     
+    
+    // Handle split check actions
     func handlePartySizeChange(sender: UIButton) {
         TapSound.sharedInstance.play()
         
@@ -417,7 +466,6 @@ class RestaurantViewController: UIViewController, UITextFieldDelegate, HasNumeri
         
         // The split total must equal or exceed the total amount
         while (splitValue * Double(service.partySize) < service.totalAmount()) {
-            print("increasing Split Value")
             splitValue = splitValue + 0.0075
         }
         totalEachQuantity.text = "$" + String(format: "%03.2f", splitValue)

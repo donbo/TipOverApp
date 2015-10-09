@@ -15,10 +15,10 @@ enum ServiceType: String {
     Taxi = "Taxi",
     Delivery = "Delivery",
     Manicure = "Manicure",
-    Other = "Other"
+    Valet = "Valet"
 
     
-    static let allServiceTypes = [Restaurant, Bar, HairStyle, Taxi, Delivery, Manicure, Other]
+    static let allServiceTypes = [Restaurant, Bar, HairStyle, Taxi, Delivery, Manicure, Valet]
 }
 
 

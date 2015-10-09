@@ -1,5 +1,5 @@
 //
-//  mathModel.swift
+//  percentageBasedService.swift
 //  TipOver
 //
 //  Created by Kyle Barker on 8/10/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RestaurantService {
+class PercentageBasedService {
     var billAmount: Int
     var tipPercentage: Int
     var partySize: Int

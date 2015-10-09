@@ -27,7 +27,11 @@ class TapSound {
     }()
     
     func play() {
-        self.tapSoundPlayer.play()
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let soundOn:Bool = defaults.boolForKey("soundOn")
+        if soundOn {
+            self.tapSoundPlayer.play()
+        }
     }
     
 }

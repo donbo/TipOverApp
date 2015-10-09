@@ -17,8 +17,8 @@ class TipOverKeyboardView: UIView {
 
     var delegate: HasNumericKeyboard?
     
-    let gap:Int = 2
-    let keyboardInset:CGFloat = 167
+    var gap:Int = 2
+    var keyboardInset:CGFloat = 167
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -32,8 +32,10 @@ class TipOverKeyboardView: UIView {
         
     }
     
-    func setup(serviceType: String) {
+    func setup(yInset: CGFloat, keyGap: Int, serviceType: String) {
         
+        keyboardInset = yInset
+        gap = keyGap
         let viewProperties = ViewProperties()
         
         // Setup the keyboard view, based on the device size and current screen background color
@@ -43,7 +45,8 @@ class TipOverKeyboardView: UIView {
         self.frame = CGRectMake(0, keyboardInset, screenRect.width, screenRect.height-keyboardInset)
         
         // Determine the button heights and widths
-        let buttonHeight:Int = Int((screenRect.height - 179) / 5)
+        let buttonHeight:Int = Int((screenRect.height - (keyboardInset+(6*CGFloat(gap)))) / 5)
+        print("button height = \(buttonHeight)")
         
         let buttonThirdWidth:Int = Int((screenRect.width - 8)/3)
         let buttonHalfWidth:Int = Int((screenRect.width - 6)/2)
@@ -82,10 +85,13 @@ class TipOverKeyboardView: UIView {
         button9.tag = 9
         
         button7.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        button7.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         button7.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         button8.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        button8.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         button8.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         button9.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        button9.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         button9.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         
         number7.text = "7"
@@ -128,6 +134,9 @@ class TipOverKeyboardView: UIView {
         button4.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
         button5.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
         button6.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        button4.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
+        button5.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
+        button6.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         button4.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         button5.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         button6.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
@@ -172,6 +181,9 @@ class TipOverKeyboardView: UIView {
         button1.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
         button2.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
         button3.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        button1.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
+        button2.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
+        button3.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         button1.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         button2.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         button3.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
@@ -209,6 +221,7 @@ class TipOverKeyboardView: UIView {
         button0.backgroundColor = viewProperties.serviceBackgroundColor[serviceType]
         button0.tag = 0
         button0.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        button0.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         button0.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         
         number0.text = "0"
@@ -229,6 +242,7 @@ class TipOverKeyboardView: UIView {
         buttonBack.backgroundColor = viewProperties.serviceBackgroundColor[serviceType]
         buttonBack.tag = 10
         buttonBack.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        buttonBack.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         buttonBack.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         
         buttonBackImageView.image = buttonBackImage
@@ -245,6 +259,7 @@ class TipOverKeyboardView: UIView {
         buttonDone.backgroundColor = viewProperties.serviceBackgroundColor[serviceType]
         buttonDone.tag = 11
         buttonDone.addTarget(self, action: Selector("handleButtonTap:"), forControlEvents: .TouchUpInside)
+        buttonDone.addTarget(self, action: Selector("handleButtonUpOutside:"), forControlEvents: .TouchUpOutside)
         buttonDone.addTarget(self, action: Selector("handleButtonTouchDown:"), forControlEvents: .TouchDown)
         
         buttonDoneImageView.image = buttonDoneImage
@@ -262,8 +277,10 @@ class TipOverKeyboardView: UIView {
     func handleButtonTap(sender: UIButton) {
         sender.alpha = 1.0
         TapSound.sharedInstance.play()
-        print("in handleButtonTap ")
         delegate?.handleKeyboardInput(sender.tag)
     }
     
+    func handleButtonUpOutside(sender: UIButton) {
+        sender.alpha = 1.0
+    }
 }

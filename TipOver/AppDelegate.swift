@@ -17,7 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // Initialize user defaults
-        let defaults = ["RestaurantPoor": 10,"RestaurantGood": 15, "RestaurantAmazing": 20, "defaultRestaurantPoor": 10, "defaultRestaurantGood" : 15, "defaultRestaurantAmazing": 20]
+        let defaults = ["RestaurantPoor": 10,"RestaurantGood": 20, "RestaurantAmazing": 25, "HairstylePoor": 10, "HairstyleGood": 15, "HairstyleAmazing": 20, "TaxiPoor": 10, "TaxiGood":15, "TaxiAmazing":20, "DeliveryPoor":8, "DeliveryGood":10, "DeliveryAmazing":15, "ManicurePoor":10, "ManicureGood":15, "ManicureAmazing": 20,
+            "BeerPoor":0, "ShotPoor":0, "SodaPoor":0, "BeerGood":1, "ShotGood":1, "SodaGood":1, "BeerAmazing":2, "ShotAmazing":2, "SodaAmazing":2, "SimpleCocktailPoor":0, "SimpleCocktailGood":2, "SimpleCocktailAmazing":3, "WinePoor":0, "WineGood":2, "WineAmazing":3, "FancyCocktailPoor":0, "FancyCocktailGood":3, "FancyCocktailAmazing":4, "BarPoor": 10, "BarGood":15, "BarAmazing":20, "CarValetPoor":1, "CarValetGood":2, "CarValetAmazing":5, "soundOn": true]
+        
+        
         NSUserDefaults.standardUserDefaults().registerDefaults(defaults)
         
         // Set the status bar style

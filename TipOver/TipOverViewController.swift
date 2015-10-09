@@ -32,6 +32,8 @@ class TipOverViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         for service in ServiceType.allServiceTypes {
             serviceType.append(service.rawValue)
         }
@@ -58,8 +60,6 @@ class TipOverViewController: UIViewController {
     }
     
     override func viewWillAppear(animated:Bool) {
-        
-        print ("in viewWillAppear")
         explodingView.removeFromSuperview()
         explodingLabel.removeFromSuperview()
         
@@ -93,8 +93,8 @@ class TipOverViewController: UIViewController {
                     coverView.removeFromSuperview()
             })
             
-            closeSoundPlayer.play()
-            
+            //closeSoundPlayer.play()
+            TapSound.sharedInstance.play()
         }
         
         viewAppearingFromSegueUnwind = false
@@ -131,7 +131,7 @@ class TipOverViewController: UIViewController {
             
             verticalButtonSpace = (Int(viewProperties.iPhone5Height) - (topButtonInset + totalButtonHeight + bottomButtonInset)) / (serviceType.count-1)
             
-            print("iPhone 5  vertSpace = \(verticalButtonSpace)")
+            //print("iPhone 5  vertSpace = \(verticalButtonSpace)")
             
         } else if screenRect.height <= viewProperties.iPhone6Height {
             topButtonInset = viewProperties.topTitleBarInset + viewProperties.topInset
@@ -139,7 +139,7 @@ class TipOverViewController: UIViewController {
             
             verticalButtonSpace = (Int(viewProperties.iPhone6Height) - (topButtonInset + totalButtonHeight + bottomButtonInset)) / (serviceType.count-1)
             
-            print("iPhone 6  vertSpace = \(verticalButtonSpace)")
+            //print("iPhone 6  vertSpace = \(verticalButtonSpace)")
             
         } else {
             topButtonInset = viewProperties.topTitleBarInset + viewProperties.topInset + 30
@@ -147,7 +147,7 @@ class TipOverViewController: UIViewController {
             
             verticalButtonSpace = (Int(viewProperties.iPhone6PlusHeight) - (topButtonInset + totalButtonHeight + bottomButtonInset)) / (serviceType.count-1)
             
-            print("iPhone 6 Plus  vertSpace = \(verticalButtonSpace)")
+            //print("iPhone 6 Plus  vertSpace = \(verticalButtonSpace)")
         }
         
         
@@ -160,7 +160,6 @@ class TipOverViewController: UIViewController {
             let imageString = serviceType[serviceCount] + "Button.png"
             let buttonImage = UIImage(named: imageString)
             buttons[serviceCount].setImage(buttonImage, forState: UIControlState.Normal)
-            print ("Button y = \(buttonY)")
             buttons[serviceCount].setTitle(serviceType[serviceCount], forState: UIControlState.Normal)
             buttons[serviceCount].titleLabel!.font = UIFont(name: "AvenirNext-Regular", size: 20)
             buttons[serviceCount].titleLabel!.textAlignment = NSTextAlignment.Right
@@ -254,30 +253,54 @@ class TipOverViewController: UIViewController {
         // Set the links back to the current view controller
         switch segue.identifier! {
         case "showRestaurant":
-            let controller = segue.destinationViewController as? RestaurantViewController
+            let controller = segue.destinationViewController as? PercentageServiceViewController
             controller?.segueFromTipOverRoot = true
+            controller?.myServiceType = ServiceType.Restaurant
+        case "showHairstyle":
+            let controller = segue.destinationViewController as? PercentageServiceViewController
+            controller?.segueFromTipOverRoot = true
+            controller?.myServiceType = ServiceType.HairStyle
+        case "showTaxi":
+            let controller = segue.destinationViewController as? PercentageServiceViewController
+            controller?.segueFromTipOverRoot = true
+            controller?.myServiceType = ServiceType.Taxi
+        case "showDelivery":
+            let controller = segue.destinationViewController as? PercentageServiceViewController
+            controller?.segueFromTipOverRoot = true
+            controller?.myServiceType = ServiceType.Delivery
+        case "showManicure":
+            let controller = segue.destinationViewController as? PercentageServiceViewController
+            controller?.segueFromTipOverRoot = true
+            controller?.myServiceType = ServiceType.Manicure
         default:
-            print("in default")
+            break
         }
         
     }
     
     override func canPerformUnwindSegueAction(action: Selector, fromViewController: UIViewController, withSender sender: AnyObject) -> Bool {
-        
-        print("in TipOverVC canPerformUnwindSegueAction")
         return true
-        
     }
     
     @IBAction func unwindToTipOver(sender: UIStoryboardSegue)
     {
-        print("in TipOverVC unwindToTipOver")
         let sourceViewController = sender.sourceViewController
         
         viewAppearingFromSegueUnwind = true
         
-        if sourceViewController.isKindOfClass(RestaurantViewController) {
-            serviceTypeIndex = 0
+        if sourceViewController.isKindOfClass(PercentageServiceViewController) {
+            let myViewController = sourceViewController as! PercentageServiceViewController
+            if myViewController.myServiceType == ServiceType.Restaurant {
+                serviceTypeIndex = 0
+            } else if myViewController.myServiceType == ServiceType.HairStyle {
+                serviceTypeIndex = 2
+            } else if myViewController.myServiceType == ServiceType.Taxi {
+                serviceTypeIndex = 3
+            } else if myViewController.myServiceType == ServiceType.Delivery {
+                serviceTypeIndex = 4
+            } else if myViewController.myServiceType == ServiceType.Manicure {
+                serviceTypeIndex = 5
+            }
         } else if sourceViewController.isKindOfClass(BarViewController) {
             serviceTypeIndex = 1
         } else if sourceViewController.isKindOfClass(HairstyleViewController) {
@@ -288,7 +311,7 @@ class TipOverViewController: UIViewController {
             serviceTypeIndex = 4
         } else if sourceViewController.isKindOfClass(ManicureViewController) {
             serviceTypeIndex = 5
-        } else if sourceViewController.isKindOfClass(OtherViewController) {
+        } else if sourceViewController.isKindOfClass(ValetViewController) {
             serviceTypeIndex = 6
         }
         
@@ -368,7 +391,7 @@ class TipOverViewController: UIViewController {
                 self.performSegueWithIdentifier(segueType, sender: self)
         })
         
-        openSoundPlayer.play()
+        TapSound.sharedInstance.play()
 
     }
     // UICollectionViewDataSource delegate functions

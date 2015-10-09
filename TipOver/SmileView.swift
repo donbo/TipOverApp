@@ -15,8 +15,6 @@ class SmileView: UIView {
     }
     
     override func awakeFromNib() {
-        print("in awakeFromNib")
-        
         
     }
     
@@ -26,7 +24,6 @@ class SmileView: UIView {
     // An empty implementation adversely affects performance during animation.
     override func drawRect(rect: CGRect) {
         // Drawing code
-        print("in drawRect")
         
         let shapeLayer = self.layer as? CAShapeLayer //else { return }
         
@@ -82,7 +79,7 @@ class SmileView: UIView {
             path.addCurveToPoint(CGPointMake(42, 4), controlPoint1: CGPointMake(8, 4), controlPoint2: CGPointMake(25, 30))
             
         default:
-            print("in default")
+            break
         }
         return path
     }
