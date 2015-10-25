@@ -8,9 +8,10 @@
 
 import UIKit
 
-class PercentageServiceViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboard {
+class PercentageServiceViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, HasNumericKeyboard {
     
-    
+    @IBOutlet var scrollView: UIScrollView!
+
     @IBOutlet weak var serviceTypeLabel: UILabel!
     @IBOutlet weak var amountTextFieldLabel: UILabel!
     @IBOutlet weak var billAmountTextField: UITextField!
@@ -18,13 +19,15 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var tipPercentageLabel: UILabel!
+    
     @IBOutlet weak var incrementTipPercentageButton: UIButton!
     @IBOutlet weak var decrementTipPercentageButton: UIButton!
+    var statusBarShouldHide: Bool = false
     var tipAmountLabel: UILabel = UILabel()
     var tipAmountServiceLabel: UILabel = UILabel()
     var totalAmountLabel: UILabel = UILabel()
     var totalAmountServiceLabel: UILabel = UILabel()
-    @IBOutlet weak var splitCheckButton: UIButton!
+    var splitCheckButton: UIButton! = UIButton.init()
     @IBOutlet weak var faceView: UIImageView!
     var myServiceType: ServiceType = ServiceType.Restaurant
     var service: PercentageBasedService = PercentageBasedService()
@@ -43,6 +46,8 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollView.delegate = self
         
         // Add the smile view
         smileView.backgroundColor = UIColor.clearColor()
@@ -67,7 +72,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
         coverView.frame = self.view.frame
         coverView.frame.origin.y += 64
         
-        self.view.addSubview(coverView)
+        self.scrollView.addSubview(coverView)
         
         
         // Set up characteristics based on the service type
@@ -122,7 +127,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
         // Set up the rest of the keyboard view
         keyboardView.delegate = self
         billAmountTextField.inputView = keyboardView
-
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -148,6 +153,23 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return statusBarShouldHide
+    }
+
+    
+    override func viewDidLayoutSubviews() {
+        var scrollRect = UIScreen.mainScreen().bounds
+        
+        if scrollRect.size.height < viewProperties.iPhone5Height {
+            
+            // If this is an iPhone 4s, allow the view to scroll 
+            scrollRect.size.height = viewProperties.iPhone5Height
+            scrollView.contentSize = scrollRect.size
+        }
+
     }
    
     func setTipPercentageFromServiceQuality() {
@@ -195,18 +217,32 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
         
     }
     
+    func scrollContentSize() -> CGSize {
+        var scrollRect = UIScreen.mainScreen().bounds
+        
+        if scrollRect.size.height < viewProperties.iPhone5Height {
+            
+            // If this is an iPhone 4s, allow the TipOver view to scroll, so buttons will fit
+            //print("set content size to 5")
+            scrollRect.size.height = viewProperties.iPhone5Height
+            scrollView.contentSize = scrollRect.size
+        }
+        
+        return scrollRect.size
+    }
+    
     func addTotalLabels() {
-        let screenRect = UIScreen.mainScreen().bounds
+        let scrollRect = scrollContentSize()
         var yOffset:CGFloat = 0.0
         var space1:CGFloat = 32.0
         var space2:CGFloat = 80.0
         var space3:CGFloat = 112.0
         
-        if (screenRect.height >= viewProperties.iPhone6PlusHeight) {
+        if (scrollRect.height >= viewProperties.iPhone6PlusHeight) {
             yOffset = 0.6
-        } else if (screenRect.height >= viewProperties.iPhone6Height) {
+        } else if (scrollRect.height >= viewProperties.iPhone6Height) {
             yOffset = 0.6
-        } else if (screenRect.height >= viewProperties.iPhone5Height) {
+        } else if (scrollRect.height >= viewProperties.iPhone5Height) {
             yOffset = 0.65
             space1 = 28.0
             space2 = 70.0
@@ -215,8 +251,8 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
             yOffset = 0.75
         }
         
-        let centerFrame:CGFloat = screenRect.width/2
-        let initialY:CGFloat = screenRect.height * yOffset
+        let centerFrame:CGFloat = scrollRect.width/2
+        let initialY:CGFloat = scrollRect.height * yOffset
         let labelWidth:CGFloat = 150.0
         let labelHeight:CGFloat = 50.0
         
@@ -227,7 +263,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
         tipAmountLabel.textAlignment = NSTextAlignment.Center
         tipAmountLabel.textColor = UIColor.whiteColor()
         tipAmountLabel.frame = CGRectMake((centerFrame - labelWidth/2.0), initialY, labelWidth, labelHeight)
-        self.view.addSubview(tipAmountLabel)
+        self.scrollView.addSubview(tipAmountLabel)
     
         tipAmountServiceLabel.text = "$0.00"
         let labelBigFont = UIFont(name: "AvenirNext-Regular", size: 32)
@@ -235,7 +271,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
         tipAmountServiceLabel.textAlignment = NSTextAlignment.Center
         tipAmountServiceLabel.textColor = viewProperties.textBackgroundColor
         tipAmountServiceLabel.frame = CGRectMake(tipAmountLabel.frame.origin.x, initialY + space1, labelWidth, labelHeight)
-        self.view.addSubview(tipAmountServiceLabel)
+        self.scrollView.addSubview(tipAmountServiceLabel)
         
         // Add total labels
         totalAmountLabel.text = "Total Amount"
@@ -243,14 +279,26 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
         totalAmountLabel.textAlignment = NSTextAlignment.Center
         totalAmountLabel.textColor = UIColor.whiteColor()
         totalAmountLabel.frame = CGRectMake((centerFrame - labelWidth/2.0), initialY + space2, labelWidth, labelHeight)
-        self.view.addSubview(totalAmountLabel)
+        self.scrollView.addSubview(totalAmountLabel)
         
         totalAmountServiceLabel.text = "$0.00"
         totalAmountServiceLabel.font = labelBigFont
         totalAmountServiceLabel.textAlignment = NSTextAlignment.Center
         totalAmountServiceLabel.textColor = viewProperties.textBackgroundColor
         totalAmountServiceLabel.frame = CGRectMake(tipAmountLabel.frame.origin.x, initialY + space3, labelWidth, labelHeight)
-        self.view.addSubview(totalAmountServiceLabel)
+        self.scrollView.addSubview(totalAmountServiceLabel)
+        
+        // Add split check button
+        splitCheckButton.setTitle("Split Check", forState: UIControlState.Normal)
+        splitCheckButton.titleLabel!.font = labelFont
+        splitCheckButton.titleLabel!.textAlignment = NSTextAlignment.Center
+        splitCheckButton.titleLabel!.textColor = viewProperties.textBackgroundColor
+        splitCheckButton.setTitleColor(viewProperties.textBackgroundColor, forState: UIControlState.Normal)
+        splitCheckButton.frame = CGRectMake(scrollRect.width-150, scrollRect.height-55, labelWidth, labelHeight)
+        splitCheckButton.addTarget(self, action: Selector("handleSplitCheck:"), forControlEvents: .TouchUpInside)
+        self.scrollView.addSubview(splitCheckButton)
+        
+        //print("Scroll view content width \(scrollRect.width) height \(scrollRect.height)")
         
     }
 
@@ -339,7 +387,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
             numberInPartyLabel.textAlignment = NSTextAlignment.Center
             numberInPartyLabel.textColor = UIColor.whiteColor()
             numberInPartyLabel.frame = CGRectMake(-150, frame1.origin.y, 150, frame1.height)
-            self.view.addSubview(numberInPartyLabel)
+            self.scrollView.addSubview(numberInPartyLabel)
             
             service.partySize = 1
             frame1 = tipAmountServiceLabel.frame
@@ -349,7 +397,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
             numberInPartyQuantity.textAlignment = NSTextAlignment.Center
             numberInPartyQuantity.textColor = viewProperties.textBackgroundColor
             numberInPartyQuantity.frame = CGRectMake(-150, frame1.origin.y, 150, frame1.height)
-            self.view.addSubview(numberInPartyQuantity)
+            self.scrollView.addSubview(numberInPartyQuantity)
             
             let numberInPartyDecrementButton = UIButton()
             let decrementImage = UIImage(named: "BackArrowDark.png")
@@ -362,7 +410,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
             numberInPartyDecrementButton.addTarget(self, action: Selector("handlePartySizeChange:"), forControlEvents: .TouchUpInside)
             
             numberInPartyDecrementButton.addSubview(decrementImageView)
-            self.view.addSubview(numberInPartyDecrementButton)
+            self.scrollView.addSubview(numberInPartyDecrementButton)
             
             let numberInPartyIncrementButton = UIButton()
             let incrementImage = UIImage(named: "ForwardArrowDark.png")
@@ -375,7 +423,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
             numberInPartyIncrementButton.addTarget(self, action: Selector("handlePartySizeChange:"), forControlEvents: .TouchUpInside)
             
             numberInPartyIncrementButton.addSubview(incrementImageView)
-            self.view.addSubview(numberInPartyIncrementButton)
+            self.scrollView.addSubview(numberInPartyIncrementButton)
             
             let totalEachLabel: UILabel = UILabel()
             var frame2: CGRect = totalAmountLabel.frame
@@ -385,7 +433,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
             totalEachLabel.textAlignment = NSTextAlignment.Center
             totalEachLabel.textColor = UIColor.whiteColor()
             totalEachLabel.frame = CGRectMake(-150, frame2.origin.y, 150, frame2.height)
-            self.view.addSubview(totalEachLabel)
+            self.scrollView.addSubview(totalEachLabel)
             
 
             frame2 = totalAmountServiceLabel.frame
@@ -396,7 +444,7 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
             totalEachQuantity.textColor = viewProperties.textBackgroundColor
             totalEachQuantity.frame = CGRectMake(-150, frame2.origin.y, 150, frame2.height)
             service.splitPay = Int(service.totalAmount()*100)
-            self.view.addSubview(totalEachQuantity)
+            self.scrollView.addSubview(totalEachQuantity)
             
             // Animate new labels and buttons onto screen, also moving Tip Amount and Total Amount
             UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.3, options: [], animations: {
@@ -474,5 +522,20 @@ class PercentageServiceViewController: UIViewController, UITextFieldDelegate, Ha
 //    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
 //        self.view.endEditing(true)
 //    }
+    
+    // UIScrollView delegate functions
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        // Remove the status bar from the screen when scrolling on an iPhone 4s
+        if scrollView.contentOffset == CGPointZero {
+            statusBarShouldHide = false
+        } else {
+            statusBarShouldHide = true
+        }
+        
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+
     
 }

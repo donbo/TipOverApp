@@ -8,13 +8,15 @@
 
 import UIKit
 
-class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboard {
+class BarViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, HasNumericKeyboard {
 
     let viewProperties = ViewProperties()
     // Outlets for entire VC
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var coverView: UIView!
+    
     
     // Outlets for Single Drink View
     @IBOutlet weak var singleDrinkView: UIView!
@@ -28,8 +30,8 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
     // Outlets for Bar Tab View
     @IBOutlet weak var barTabView: UIView!
     @IBOutlet weak var tabAmountTextField: UITextField!
-    @IBOutlet weak var tabServiceRatingSC: UISegmentedControl!
     @IBOutlet weak var tabTipPercentageLabel: UILabel!
+    @IBOutlet weak var tabServiceRatingSC: UISegmentedControl!
     @IBOutlet weak var tabTipIncrementButton: UIButton!
     @IBOutlet weak var tabTipDecrementButton: UIButton!
     @IBOutlet weak var tabFaceView: UIImageView!
@@ -46,14 +48,19 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
         
         super.viewDidLoad()
                 
+        scrollView.delegate = self
+        
         // Set up the Single Drink View
         // Add the smile view
         smileView.backgroundColor = UIColor.clearColor()
         faceView.addSubview(smileView)
-        smileView.updateSmile(serviceRatingSC.selectedSegmentIndex)
 
         view.backgroundColor = viewProperties.serviceBackgroundColor["Bar"]
+        scrollView.backgroundColor = viewProperties.serviceBackgroundColor["Bar"]
         coverView.backgroundColor = viewProperties.serviceBackgroundColor["Bar"]
+        barTabView.backgroundColor = viewProperties.serviceBackgroundColor["Bar"]
+        singleDrinkView.backgroundColor = viewProperties.serviceBackgroundColor["Bar"]
+        
         tabOrDrinkSC.selectedSegmentIndex = UISegmentedControlNoSegment
         drinkType1SC.selectedSegmentIndex = UISegmentedControlNoSegment
         drinkType2SC.selectedSegmentIndex = UISegmentedControlNoSegment
@@ -62,6 +69,8 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
         self.drinkType1SC.backgroundColor = viewProperties.serviceBackgroundLightColor["Bar"]
         self.drinkType2SC.backgroundColor = viewProperties.serviceBackgroundLightColor["Bar"]
         self.serviceRatingSC.backgroundColor = viewProperties.serviceBackgroundLightColor["Bar"]
+        self.serviceRatingSC.selectedSegmentIndex = 1
+        smileView.updateSmile(serviceRatingSC.selectedSegmentIndex)
         
         tabOrDrinkSC.layer.cornerRadius = 3;
         tabOrDrinkSC.layer.masksToBounds = true;
@@ -72,7 +81,8 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
         serviceRatingSC.layer.cornerRadius = 3;
         serviceRatingSC.layer.masksToBounds = true;
         
-        // Set up the Tab Bar View
+        
+        // Set up the Bar Tab View
         tabSmileView.backgroundColor = UIColor.clearColor()
         tabFaceView.addSubview(tabSmileView)
         tabSmileView.updateSmile(tabServiceRatingSC.selectedSegmentIndex)
@@ -106,6 +116,17 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
         
     }
     
+    override func viewDidLayoutSubviews() {
+        var scrollRect = UIScreen.mainScreen().bounds
+        
+        if scrollRect.size.height < viewProperties.iPhone5Height {
+            
+            // If this is an iPhone 4s, allow the view to scroll
+            scrollRect.size.height = viewProperties.iPhone5Height
+            scrollView.contentSize = scrollRect.size
+        }
+        
+    }
     
     // Overall view controller actions
     
@@ -174,10 +195,12 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
     
     func arrangeViews(selectedView:Int) {
         
+        //print ("in arrangeViews")
+        
         if selectedView == 0 {
             // Bar Tab View selected
-            view.bringSubviewToFront(barTabView)
-            view.bringSubviewToFront(coverView)
+            scrollView.bringSubviewToFront(barTabView)
+            //scrollView.bringSubviewToFront(coverView)
             
             // Set the text field into editing mode to bring up the keyboard
             tabAmountTextField.becomeFirstResponder()
@@ -186,12 +209,12 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
             
         } else if selectedView == 1 {
             // Single Drink View selected
-            view.bringSubviewToFront(singleDrinkView)
-            view.bringSubviewToFront(coverView)
+            scrollView.bringSubviewToFront(singleDrinkView)
+            //scrollView.bringSubviewToFront(coverView)
             tabAmountTextField.resignFirstResponder()
             
         } else if selectedView == UISegmentedControlNoSegment {
-            view.bringSubviewToFront(coverView)
+            scrollView.bringSubviewToFront(coverView)
         }
     }
     
@@ -235,8 +258,8 @@ class BarViewController: UIViewController, UITextFieldDelegate, HasNumericKeyboa
         // Update the tip amount based on the key if a drink type was chosen
         if ((drinkType1SC.selectedSegmentIndex != UISegmentedControlNoSegment) || (drinkType2SC.selectedSegmentIndex != UISegmentedControlNoSegment)) {
             tipAmountLabel.text = "$" + (defaults.stringForKey(drinkTipDefaultKey))!
-            smileView.updateSmile(serviceRatingSC.selectedSegmentIndex)
         }
+        smileView.updateSmile(serviceRatingSC.selectedSegmentIndex)
     }
     
     // Bar Tab View Actions

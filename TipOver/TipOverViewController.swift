@@ -9,7 +9,10 @@
 import UIKit
 import AVFoundation
 
-class TipOverViewController: UIViewController {
+class TipOverViewController: UIViewController, UIScrollViewDelegate {
+    
+    @IBOutlet var scrollView: UIScrollView!
+    private var statusBarShouldHide:Bool = false
     
     private var serviceType: [String] = []
     let viewProperties = ViewProperties()
@@ -32,8 +35,6 @@ class TipOverViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         for service in ServiceType.allServiceTypes {
             serviceType.append(service.rawValue)
         }
@@ -54,6 +55,8 @@ class TipOverViewController: UIViewController {
         closeSound = NSBundle.mainBundle().URLForResource("slide-rock", withExtension: "aif")!
         do { closeSoundPlayer =  try AVAudioPlayer(contentsOfURL: closeSound, fileTypeHint: nil) }
         catch _ {return}
+        
+        scrollView.delegate = self
         
         closeSoundPlayer.prepareToPlay()
         
@@ -110,14 +113,19 @@ class TipOverViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-//    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return serviceType.count
-//    }
+    override func prefersStatusBarHidden() -> Bool {
+        return statusBarShouldHide
+    }
+    
+    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
+        return .Fade
+    }
     
     func createButtons() {
         
         // Get the screen size of the user's device
-        let screenRect = UIScreen.mainScreen().bounds
+        let contentSize:CGSize = scrollContentSize()
+        
         
         // Set insets based on screen size
         var topButtonInset = 0
@@ -125,7 +133,7 @@ class TipOverViewController: UIViewController {
         var verticalButtonSpace = 0
         let totalButtonHeight = serviceType.count * viewProperties.buttonImageHeight
         
-        if screenRect.height <= viewProperties.iPhone5Height {
+        if contentSize.height <= viewProperties.iPhone5Height {
             topButtonInset = viewProperties.topTitleBarInset
             bottomButtonInset = viewProperties.bottomInset / 2
             
@@ -133,7 +141,7 @@ class TipOverViewController: UIViewController {
             
             //print("iPhone 5  vertSpace = \(verticalButtonSpace)")
             
-        } else if screenRect.height <= viewProperties.iPhone6Height {
+        } else if contentSize.height <= viewProperties.iPhone6Height {
             topButtonInset = viewProperties.topTitleBarInset + viewProperties.topInset
             bottomButtonInset = viewProperties.bottomInset
             
@@ -154,7 +162,7 @@ class TipOverViewController: UIViewController {
         var buttonY: CGFloat = CGFloat(topButtonInset) - CGFloat(verticalButtonSpace)
         
         for serviceCount in 0...serviceType.count-1 {
-            var buttonX: CGFloat = screenRect.width - CGFloat(viewProperties.leftInset + 180)
+            var buttonX: CGFloat = contentSize.width - CGFloat(viewProperties.leftInset + 180)
             let nextButton = UIButton()
             buttons.append(nextButton)
             let imageString = serviceType[serviceCount] + "Button.png"
@@ -235,6 +243,20 @@ class TipOverViewController: UIViewController {
     
     }
     
+    func scrollContentSize() -> CGSize {
+        var scrollRect = UIScreen.mainScreen().bounds
+        
+        if scrollRect.size.height < viewProperties.iPhone5Height {
+            
+            // If this is an iPhone 4s, allow the TipOver view to scroll, so buttons will fit
+            scrollRect.size.height = viewProperties.iPhone5Height
+            scrollView.contentSize = scrollRect.size
+        }
+        
+        return scrollRect.size
+    }
+
+    
     func animateButtonsIntoPosition() {
         
         var animationDelay: Double = 0.1
@@ -314,36 +336,6 @@ class TipOverViewController: UIViewController {
         } else if sourceViewController.isKindOfClass(ValetViewController) {
             serviceTypeIndex = 6
         }
-        
-/*
-        // Build and animate a cover view
-        let coverView: UIView = UIView()
-        coverView.backgroundColor = viewProperties.serviceBackgroundColor["Restaurant"]
-        coverView.frame = self.view.frame
-        self.view.addSubview(coverView)
-        
-        
-        UIView.animateWithDuration(3.5, delay: 0.0, usingSpringWithDamping: 1.0
-            , initialSpringVelocity: 0.3, options: [], animations: {
-                coverView.frame = CGRectMake(self.buttons[0].frame.origin.x+125, self.buttons[0].frame.origin.y+5, 55, 55)
-
-                //self.explodingLabel.frame = CGRectMake(141, 24, 116, 33)
-                
-                // Set the target location for the label to the center of the screen
-                //self.explodingLabel.center = CGPointMake(CGFloat(screenRect.width/2), 40)
-                
-                // Use a transform to animate the label size - font size is not animatable
-                //self.explodingLabel.transform = CGAffineTransformScale(self.explodingLabel.transform, 1.2, 1.2)
-                
-                //self.view.backgroundColor = self.viewProperties.serviceBackgroundColor[self.serviceType[sender.tag]]
-            }, completion: {
-                (finished: Bool) in
-                coverView.removeFromSuperview()
-        })
-        
-*/
-        
-        
     }
 
     
@@ -394,94 +386,20 @@ class TipOverViewController: UIViewController {
         TapSound.sharedInstance.play()
 
     }
-    // UICollectionViewDataSource delegate functions
-/*
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        let serviceCell: ServiceCell = collectionView.dequeueReusableCellWithReuseIdentifier("ServiceCell", forIndexPath: indexPath) as! ServiceCell
-        
-        // Set the service type
-        serviceCell.serviceCellLabel?.text = serviceType[indexPath.row]
-        
-        // Set the image for the service type
-        let imageFile = serviceType[indexPath.row] + ".png"
-        let image = UIImage(named: imageFile)
-        serviceCell.serviceCellImage.image = image
-        
-        // Set the background color
-        serviceCell.backgroundColor = self.viewProperties.serviceBackgroundColor[self.serviceType[indexPath.row]]
-        //serviceCell.contentView.backgroundColor = viewProperties.serviceBackgroundColor[serviceType[indexPath.row]]
-        return serviceCell
-    }
-
-*/
-
-/*
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        
-        let headerView: TipOverHeaderCollectionReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "TipOverHeader", forIndexPath: indexPath) as! TipOverHeaderCollectionReusableView
-        headerView.tipOverLabel.text = "TipOver"
-        
-        return headerView
-    }
     
-    // UICollectionViewDelegate functions
+    // UIScrollView delegate functions
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        // Create an exploding background view
-        let layoutAttributes = self.collectionView?.layoutAttributesForItemAtIndexPath(indexPath)
+        // Remove the status bar from the screen when scrolling on an iPhone 4s
+        if scrollView.contentOffset == CGPointZero {
+            statusBarShouldHide = false
+        } else {
+            statusBarShouldHide = true
+        }
         
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ServiceCell
-        explodingView.backgroundColor = self.viewProperties.serviceBackgroundColor[self.serviceType[indexPath.row]]
-        explodingView.frame = (layoutAttributes?.frame)!
-        explodingLabel.text = self.serviceType[indexPath.row]
-        explodingLabel.frame = cell.serviceCellLabel.frame
-        explodingLabel.frame.origin.x += explodingView.frame.origin.x
-        explodingLabel.frame.origin.y += explodingView.frame.origin.y
-        explodingLabel.textColor = UIColor.whiteColor()
-        
-        self.view.addSubview(explodingView)
-        self.view.addSubview(explodingLabel)
-        
-        UIView.animateWithDuration(0.3, animations: {
-            self.explodingView.frame = self.view.frame
-            self.explodingLabel.frame = CGRectMake(130, 23, 116, 33)
-            let newFont = UIFont(name: "AvenirNext-Regular", size: 24)
-            self.explodingLabel.font = newFont
-            
-            self.view.backgroundColor = self.viewProperties.serviceBackgroundColor[self.serviceType[indexPath.row]]
-            self.collectionView?.backgroundColor = self.viewProperties.serviceBackgroundColor[self.serviceType[indexPath.row]]
-            }, completion: {
-                _ in
-                let segueType : String = "show" + self.serviceType[indexPath.row]
-                print("segueType is ", segueType)
-                self.performSegueWithIdentifier(segueType, sender: self)
-                
-                
-        })
-        
-        
-        
+        self.setNeedsStatusBarAppearanceUpdate()
     }
-    
-    override func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-        
-        print(" in didSelectItemAtIndexPath")
-        let cell = collectionView.cellForItemAtIndexPath(indexPath)
-        cell!.contentView.backgroundColor = viewProperties.highlightColor
-        
-    }
-    
-    override func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
-        
-        print(" in didSelectItemAtIndexPath")
-        let cell = collectionView.cellForItemAtIndexPath(indexPath)
-        cell!.contentView.backgroundColor = viewProperties.serviceBackgroundColor[serviceType[indexPath.row]]
-        
-    }
-
-*/
     
 }
 

@@ -46,7 +46,7 @@ class TipOverKeyboardView: UIView {
         
         // Determine the button heights and widths
         let buttonHeight:Int = Int((screenRect.height - (keyboardInset+(6*CGFloat(gap)))) / 5)
-        print("button height = \(buttonHeight)")
+        //print("button height = \(buttonHeight)")
         
         let buttonThirdWidth:Int = Int((screenRect.width - 8)/3)
         let buttonHalfWidth:Int = Int((screenRect.width - 6)/2)
