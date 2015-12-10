@@ -21,9 +21,9 @@
 		922603241B757DDD00A203D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 922603221B757DDD00A203D7 /* LaunchScreen.storyboard */; };
 		9226032F1B757DDD00A203D7 /* TipOverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9226032E1B757DDD00A203D7 /* TipOverTests.swift */; };
 		9226033A1B757DDD00A203D7 /* TipOverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922603391B757DDD00A203D7 /* TipOverUITests.swift */; };
-		9228DE581BC1F6F30043EF3B /* SettingsValetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9228DE571BC1F6F30043EF3B /* SettingsValetTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		923326121BC4C88400107864 /* SettingsVersionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923326101BC4C88400107864 /* SettingsVersionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		923326131BC4C88400107864 /* SettingsVersionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 923326111BC4C88400107864 /* SettingsVersionTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		9228DE581BC1F6F30043EF3B /* SettingsValetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9228DE571BC1F6F30043EF3B /* SettingsValetTableViewCell.swift */; };
+		923326121BC4C88400107864 /* SettingsVersionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923326101BC4C88400107864 /* SettingsVersionTableViewCell.swift */; };
+		923326131BC4C88400107864 /* SettingsVersionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 923326111BC4C88400107864 /* SettingsVersionTableViewCell.xib */; };
 		923C7B661B7816EF00D1421F /* DeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B651B7816EF00D1421F /* DeliveryViewController.swift */; };
 		923C7B681B78172300D1421F /* PercentageServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B671B78172300D1421F /* PercentageServiceViewController.swift */; };
 		923C7B6C1B78175600D1421F /* HairstyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B6B1B78175600D1421F /* HairstyleViewController.swift */; };
@@ -33,13 +33,13 @@
 		923C7B781B7817F900D1421F /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B771B7817F900D1421F /* ServiceType.swift */; };
 		923C7B7A1B7818B400D1421F /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923C7B791B7818B400D1421F /* ServiceCell.swift */; };
 		924F54951B8EAA5A00A8FF21 /* ValetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924F54941B8EAA5A00A8FF21 /* ValetViewController.swift */; };
-		9260216E1BC3886F00A62937 /* SettingsSoundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9260216C1BC3886F00A62937 /* SettingsSoundTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		9260216F1BC3886F00A62937 /* SettingsSoundTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9260216D1BC3886F00A62937 /* SettingsSoundTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		9260216E1BC3886F00A62937 /* SettingsSoundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9260216C1BC3886F00A62937 /* SettingsSoundTableViewCell.swift */; };
+		9260216F1BC3886F00A62937 /* SettingsSoundTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9260216D1BC3886F00A62937 /* SettingsSoundTableViewCell.xib */; };
 		928ED3E31B93CF3800ADFC79 /* TapSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928ED3E21B93CF3800ADFC79 /* TapSound.swift */; };
 		92AE82A31B7C465D00F7249F /* SmileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AE82A21B7C465D00F7249F /* SmileView.swift */; };
 		92C352E51B9397FC00B0D582 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C352E41B9397FC00B0D582 /* SettingsTableViewCell.swift */; };
-		92C894281BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C894261BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		92C894291BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92C894271BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		92C894281BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C894261BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.swift */; };
+		92C894291BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92C894271BC8766E00376A18 /* SettingsAcknowledgementsTableViewCell.xib */; };
 		92E4B8A51B8E9F6100EB5D6E /* BarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4B8A41B8E9F6100EB5D6E /* BarViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -545,7 +545,7 @@
 				INFOPLIST_FILE = TipOver/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.TipOver;
+				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.tipover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -560,7 +560,7 @@
 				INFOPLIST_FILE = TipOver/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.TipOver;
+				PRODUCT_BUNDLE_IDENTIFIER = com.talusfield.tipover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

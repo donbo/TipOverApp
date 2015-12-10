@@ -236,7 +236,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 
                     versionCell.contentView.backgroundColor = viewProperties.backgroundColor
                 
-                    versionCell.settingsVersionLabel.text = "1.0"
+                    versionCell.settingsVersionLabel.text = "1.0.1"
                 
                 return versionCell
             } else {
